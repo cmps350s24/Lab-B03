@@ -56,9 +56,8 @@ export default class AccountsRepo {
     async deleteAccount(accNo) {
         const accounts = await fs.readJson(this.path)
         const index = accounts.findIndex(acc => acc.accountNo == accNo)
-        if (index < 0) {
-            return "Account not found"
-        }
+        if (index < 0) return "Account not found"
+
         accounts.splice(index, 1)
         await fs.writeJson(this.path, accounts)
         return "deleted successfully"
@@ -74,18 +73,22 @@ export default class AccountsRepo {
 
         return account.transactions;
     }
-    async addTransaction(transaction) {
-        transaction.accountNo = parseInt(transaction.accountNo.toString());
+    async addTransaction(transaction, accountNo) {
+        console.log('I was called');
+        transaction.accountNo = accountNo
         transaction.amount = parseInt(transaction.amount.toString());
         try {
             const accounts = await this.getAccounts();
-            const account = accounts.find(account => account.accountNo == transaction.accountNo);
-            if (transaction.transType == 'Deposit') {
+            const account = accounts.find(account => account.accountNo == accountNo);
+            if (transaction.transType == 'Deposit')
                 account.balance += transaction.amount;
-            } else {
-                account.balance -= transaction.amount;
-            }
-            return await fs.writeJson(filePath, accounts)
+            else if (transaction.transType == 'Withdraw')
+                if (account.balance < transaction.amount)
+                    return "Insufficient balance";
+                else
+                    account.balance -= transaction.amount;
+            await fs.writeJSON(this.path, accounts)
+            return account
         } catch (err) {
             throw err;
         }
