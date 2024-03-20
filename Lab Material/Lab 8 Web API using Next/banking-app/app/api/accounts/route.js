@@ -13,5 +13,5 @@ export async function GET(request) {
 export async function POST(request) {
     const account = await request.json()
     const newAccount = await accountsRepo.addAccount(account)
-    return Response.json(newAccount, { status: 200 })
+    return Response.json(newAccount, { status: 201 })
 }
