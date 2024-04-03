@@ -10,7 +10,7 @@ export default async function Home() {
   // const accounts = 
   return (
     <>
-      <Accounts accounts={accounts} />
+      <Accounts initialAccounts={accounts} />
     </>
   )
 }

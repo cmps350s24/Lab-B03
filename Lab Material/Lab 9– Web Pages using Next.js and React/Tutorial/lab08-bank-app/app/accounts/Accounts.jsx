@@ -1,17 +1,28 @@
-import lib from 'fs-extra'
-import React from 'react'
+
+'use client'
+import { React, useState } from 'react'
 import styles from '@/app/page.module.css'
 import Account from './Account'
 
-export default async function Accounts({ accounts }) {
 
+export default function Accounts({ initialAccounts }) {
+    // react hook
+    const [accounts, setAccount] = useState(initialAccounts)
+
+    async function handleLoadAccounts(type) {
+        const url = `/api/accounts?type=${type}`
+        const res = await fetch(url)
+        const data = await res.json()
+        setAccount(data)
+
+    }
     return (
         <>
             <label for="acctType">
                 Account Type
             </label>
             <select id="acctType"
-                onchange="handleLoadAccounts(this.value)"
+                onChange={e => handleLoadAccounts(e.target.value)}
                 className={styles.filterDropdown}>
 
                 <option value="All">All</option>
@@ -26,6 +37,7 @@ export default async function Accounts({ accounts }) {
                         <th>Last Name</th>
                         <th>Gender</th>
                         <th>Account No</th>
+                        <th>Account Type</th>
                         <th>Balance</th>
                     </tr>
                 </thead>
