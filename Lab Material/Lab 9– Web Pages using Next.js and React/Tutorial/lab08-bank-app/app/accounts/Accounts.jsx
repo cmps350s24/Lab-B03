@@ -2,24 +2,22 @@ import lib from 'fs-extra'
 import React from 'react'
 import styles from '@/app/page.module.css'
 import Account from './Account'
-/*
 
-        "accountNo": "AC1102",
-        "acctType": "Current",
-        "balance": 711,
-        "monthlyFee": 15,
-        "firstname": "Mohammed",
-        "lastname": "Ali",
-        "email": "mohammed.ali@example.com",
-        "dateOpened": "2023-01-15",
-        "gender": "Male",
-        "profileImage": "https://randomuser.me/api/portraits/men/15.jpg"
-    },
-    */
 export default async function Accounts({ accounts }) {
 
     return (
         <>
+            <label for="acctType">
+                Account Type
+            </label>
+            <select id="acctType"
+                onchange="handleLoadAccounts(this.value)"
+                className={styles.filterDropdown}>
+
+                <option value="All">All</option>
+                <option value="Saving">Saving</option>
+                <option value="Current">Current</option>
+            </select>
             <table className={styles.table}>
                 <thead>
                     <tr>
