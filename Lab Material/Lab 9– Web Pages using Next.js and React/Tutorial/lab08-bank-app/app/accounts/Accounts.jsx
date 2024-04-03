@@ -34,7 +34,9 @@ export default async function Accounts({ accounts }) {
                     {
                         accounts.map(account => <tr>
                             <td>
-                                <img src={account.profileImage} alt="" className={styles.profilePic} />
+                                <img src={account.profileImage}
+                                    alt=""
+                                    className={styles.profilePic} />
                             </td>
                             <td>{account.firstname}</td>
                             <td>{account.lastname}</td>
