@@ -1,6 +1,7 @@
 import lib from 'fs-extra'
 import React from 'react'
 import accountRepo from '@/app/repo/accounts-repo'
+import styles from '@/app/page.module.css'
 /*
 
         "accountNo": "AC1102",
@@ -19,27 +20,32 @@ export default async function Accounts() {
     const accounts = await accountRepo.getAccounts()
     return (
         <>
-            <table>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Gender</th>
-                    <th>Image</th>
-                    <th>Account No</th>
-                    <th>Balance</th>
-                </tr>
-                {
-                    accounts.map(account => <tr>
-                        <td>{account.firstname}</td>
-                        <td>{account.lastname}</td>
-                        <td>{account.gender}</td>
-                        <td>
-                            <img src={account.profileImage} alt="" />
-                        </td>
-                        <td>{account.accountNo}</td>
-                        <td>{account.balance}</td>
-                    </tr>)
-                }
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Account No</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        accounts.map(account => <tr>
+                            <td>
+                                <img src={account.profileImage} alt="" className={styles.profilePic} />
+                            </td>
+                            <td>{account.firstname}</td>
+                            <td>{account.lastname}</td>
+                            <td>{account.gender}</td>
+
+                            <td>{account.accountNo}</td>
+                            <td>{account.balance}</td>
+                        </tr>)
+                    }
+                </tbody>
             </table>
 
         </>
