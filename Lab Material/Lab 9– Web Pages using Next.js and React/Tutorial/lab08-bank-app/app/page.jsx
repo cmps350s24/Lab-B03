@@ -8,7 +8,7 @@ export default async function Home() {
   // const accounts = 
   return (
     <div>
-      <h1>Hello</h1>
+      <h1>This is the first page</h1>
     </div>
   )
 }
