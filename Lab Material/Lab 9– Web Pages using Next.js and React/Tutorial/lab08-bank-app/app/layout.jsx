@@ -12,7 +12,9 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
       </head>
       <body>
+        <h1>This is common for everybody</h1>
         {children}
+        <h2>This is also for everybody</h2>
       </body>
     </html>
   )

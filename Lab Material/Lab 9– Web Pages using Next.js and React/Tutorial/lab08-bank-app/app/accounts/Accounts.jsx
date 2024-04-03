@@ -1,6 +1,7 @@
 import lib from 'fs-extra'
 import React from 'react'
 import styles from '@/app/page.module.css'
+import Account from './Account'
 /*
 
         "accountNo": "AC1102",
@@ -31,21 +32,7 @@ export default async function Accounts({ accounts }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        accounts.map(account => <tr>
-                            <td>
-                                <img src={account.profileImage}
-                                    alt=""
-                                    className={styles.profilePic} />
-                            </td>
-                            <td>{account.firstname}</td>
-                            <td>{account.lastname}</td>
-                            <td>{account.gender}</td>
-
-                            <td>{account.accountNo}</td>
-                            <td>{account.balance}</td>
-                        </tr>)
-                    }
+                    {accounts.map(account => <Account account={account} />)}
                 </tbody>
             </table>
 
