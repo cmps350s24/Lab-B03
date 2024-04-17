@@ -23,7 +23,13 @@ export default function Account({ account, onDelete }) {
 
                 <button className={styles.btnEdit}>
                     <i className="fas fa-edit">
-                        Edit
+                        <Link href={
+                            {
+                                pathname: '/accounts/upsert',
+                                query: account
+
+                            }
+                        }>Edit</Link>
                     </i>
                 </button>
             </td>
