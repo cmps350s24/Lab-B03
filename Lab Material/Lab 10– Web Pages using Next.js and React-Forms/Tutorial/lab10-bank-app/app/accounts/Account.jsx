@@ -27,7 +27,6 @@ export default function Account({ account, onDelete }) {
                             {
                                 pathname: '/accounts/upsert',
                                 query: account
-
                             }
                         }>Edit</Link>
                     </i>
