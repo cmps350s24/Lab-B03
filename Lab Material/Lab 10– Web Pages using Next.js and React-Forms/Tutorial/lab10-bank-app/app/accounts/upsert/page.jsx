@@ -2,22 +2,35 @@
 
 import { React, useState } from 'react'
 import styles from '@/app/page.module.css'
+import { useRouter } from 'next/navigation'
 
 
 export default function page() {
     const [account, setAccount] = useState({})
+    const router = useRouter()
 
     function handleChange(e) {
         const newAccount = { ...account }
         newAccount[e.target.name] = e.target.value
         setAccount(newAccount)
     }
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const url = '/api/accounts'
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(account)
 
+        })
+        router.push('/')
+    }
     return (
         <>
-            {JSON.stringify(account)}
             <h3 className={styles.title}>Add Account</h3>
-            <form id="account-form" className={styles.form}>
+            <form id="account-form" className={styles.form} onSubmit={e => handleSubmit(e)}>
                 <label htmlFor="firstname">First Name</label>
                 <input type="text" name="firstname" id="firstname" onChange={handleChange} />
 
@@ -42,10 +55,9 @@ export default function page() {
 
                 <label htmlFor="gender">Gender</label>
                 <select name="gender" id="gender" required onChange={handleChange}>
-                    <option value=""></option>
+                    <option disabled selected>Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
-                    <option value="Other">Other</option>
                 </select>
 
                 <label htmlFor="profileImage">Profile Image URL</label>

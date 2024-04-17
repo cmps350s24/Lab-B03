@@ -15,7 +15,7 @@ export default function Account({ account, onDelete }) {
             <td>{account.email}</td>
             <td>{account.dateOpened}</td>
             <td>
-                {account.balance >= 0 ?
+                {account.balance == 0 ?
                     <button className={styles.btnDelete}
                         onClick={e => onDelete(account.accountNo)}>
                         <i class="fas fa-trash">Delete</i>
