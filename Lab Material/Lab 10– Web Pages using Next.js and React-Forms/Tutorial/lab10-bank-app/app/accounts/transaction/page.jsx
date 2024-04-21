@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation'
 export default function Transaction() {
     const [accounts, setAccounts] = useState([])
     const router = useRouter()
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         const transaction = Object.fromEntries(new FormData(e.target))
 
         const url = `/api/accounts/${transaction.accountNo}/trans`
-        const response = fetch(url, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
