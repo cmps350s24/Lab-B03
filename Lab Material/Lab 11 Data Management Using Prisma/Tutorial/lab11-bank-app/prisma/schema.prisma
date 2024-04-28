@@ -30,7 +30,7 @@ model Account {
   balance    Float
   dateOpened DateTime @default(now())
 
-  Owner   Owner  @relation(fields: [ownerId], references: [id])
+  Owner   Owner  @relation(fields: [ownerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   ownerId String
 
   transactions Transaction[]
@@ -41,6 +41,6 @@ model Transaction {
   transType String
   amount    Float
 
-  Account   Account @relation(fields: [accountNo], references: [accountNo])
+  Account   Account @relation(fields: [accountNo], references: [accountNo], onUpdate: Cascade, onDelete: Cascade)
   accountNo String
 }
