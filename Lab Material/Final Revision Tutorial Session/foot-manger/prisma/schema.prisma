@@ -9,3 +9,18 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Team {
+  id       String @id @default(cuid())
+  name     String
+  city     String
+  division String
+}
+
+model Player {
+  id           String @id @default(cuid())
+  name         String
+  position     String
+  jerseyNumber Int
+  teamId       String
+}
