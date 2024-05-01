@@ -109,8 +109,10 @@ export default class AccountsRepo {
 
             if (transaction.transType == 'Deposit')
                 account.balance += parseInt(transaction.amount);
-            else
+            else if (account.balance >= transaction.amount)
                 account.balance -= parseInt(transaction.amount);
+            else
+                return { error: 'insufficient balance' }
 
             await this.updateAccount(account, accountNo);
             const newTransaction = await prisma.transaction.create({
@@ -134,7 +136,7 @@ export default class AccountsRepo {
     async getOwners() {
 
         try {
-
+            return await prisma.owner.findMany()
         } catch (error) {
             console.log(error);
             return { error: error.message }
@@ -143,15 +145,39 @@ export default class AccountsRepo {
 
     async getOwnerReport(ownerId) {
         try {
-
+            return await prisma.owner.findUnique({
+                where: { ownerId },
+                include: {
+                    accounts: {
+                        include: { transactions: true }
+                    }
+                }
+            })
         } catch (error) {
             console.log(error);
             return { error: error.message }
         }
     }
+    /*
+        {
+            accountNo : 101,
+            deposited : 4000,
+            withdrawn : 1000
+        }
+    */
     async getTransSum(accountNo, fromDate, toDate) {
         try {
-
+            return await prisma.transaction.groupBy({
+                by: ["transType"],
+                where: {
+                    accountNo,
+                    date: {
+                        gte: new Date(fromDate).toISOString,
+                        lte: new Date(toDate).toISOString,
+                    },
+                },
+                _sum: { amount: true }
+            })
         } catch (error) {
             console.log(error);
             return { error: error.message }
@@ -159,7 +185,9 @@ export default class AccountsRepo {
     }
     async getAvgBalance() {
         try {
-
+            return await prisma.account.aggregate({
+                _avg: { balance: true }
+            })
         } catch (error) {
             console.log(error);
             return { error: error.message }
@@ -168,7 +196,10 @@ export default class AccountsRepo {
 
     async getMinMaxBalance() {
         try {
-
+            return await prisma.account.aggregate({
+                _max: { balance: true },
+                _min: { balance: true }
+            })
         } catch (error) {
             console.log(error);
             return { error: error.message }
@@ -177,7 +208,12 @@ export default class AccountsRepo {
 
     async getTop3Accounts() {
         try {
+            const qObject = {
+                orderBy: { balance: 'desc' },
+                take: 3
+            }
 
+            return await prisma.account.findMany(qObject)
         } catch (error) {
             console.log(error);
             return { error: error.message }
@@ -185,3 +221,20 @@ export default class AccountsRepo {
     }
 }
 
+
+
+function addOrUpdate(params) {
+    if (params.add) {
+        params.z(params.x, params.y)
+        return params.a + params.b
+    } else {
+        return params.a - params.b
+    }
+}
+
+addOrUpdate({
+    add: true,
+    x: 10,
+    y: 20,
+    z: () => console.log(a)
+})
